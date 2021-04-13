@@ -1,0 +1,81 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+  
+  <h3>Recent products</h3>
+    <p>All can you buy them </p>
+    <div class="container-fluid">
+      <div class="row">
+        {% for pd in product %}
+            <div  class="col-sm-4">
+                <div class="card" style="width:300px; height: 600px;" >
+                  {% if pd.image %}
+                  <img class="card-img-top"src="{{pd.image.url}}" width="400" height="300">
+                  {% elif pd.imageurl != None %}
+                  <img class="card-img-top"src="{{pd.imageurl}}" width="400" height="300">
+                  {% else %}
+                  <img class="card-img-top"src="/media/images.png" width="400" height="300">
+                  {% endif %}
+                  <div class="card-body">
+                    <h2 class="card-title">{{pd.name}}</h2>
+                    <p>Price: {{pd.price}} bath/{{pd.unit}}</p>
+                    <p>{{pd.detail|linebreaks|truncatechars_html:100}}</p>
+                    {% if pd.quantity > 0 %}
+                      <p> Instock: {{pd.quantity}} {{pd.unit}} </p>
+                    {% else %}
+                      <p> <font color="red">Pre-Order</font>  </p>
+                    {% endif %}
+                      {% if pd.instock == True %}
+                        <a href="#" class="btn btn-success">Buy Now</a>
+                      {% else %}
+                        <a href="{% url 'contact-page' %}" class="btn btn-danger">Out of Stock</a>
+                      {% endif %}
+
+                  </div>
+                </div>
+                <br>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container">
+      <center><a href="{% url 'allproduct-page' %}"><h1> See All Products</h1></a></center>
+
+    </div>
+    <br>
+    <h3>Out of stock</h3>
+    <p>Need to pre-order</p>
+    <div class="container-fluid">
+      <div class="row">
+        {% for pd in preoder %}
+            <div  class="col-sm-4">
+                <div class="card" style="width:300px; height: 600px;" >
+                  {% if pd.image %}
+                  <img class="card-img-top"src="{{pd.image.url}}" width="400" height="300">
+                  {% elif pd.imageurl != None %}
+                  <img class="card-img-top"src="{{pd.imageurl}}" width="400" height="300">
+                  {% else %}
+                  <img class="card-img-top"src="/media/images.png" width="400" height="300">
+                  {% endif %}
+                  <div class="card-body">
+                    <h2 class="card-title">{{pd.name}}</h2>
+                    <p>Price: {{pd.price}} bath/{{pd.unit}}</p>
+                    <p>{{pd.detail|linebreaks|truncatechars_html:100}}</p>
+                    {% if pd.quantity > 0 %}
+                      <p> Instock: {{pd.quantity}} {{pd.unit}} </p>
+                    {% else %}
+                      <p> <font color="red">Pre-Order</font>  </p>
+                      <a href="{% url 'contact-page' %}" class="btn btn-danger">Pre-order Now</a>
+                    {% endif %}
+                     
+
+                  </div>
+                </div>
+                <br>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+
+{% endblock content %}
+
+

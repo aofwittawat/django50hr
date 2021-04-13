@@ -1,0 +1,79 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+{% load humanize %}
+{% if status == 'delete' %}
+ <div class="alert alert-danger">
+    <strong>Deleted was done!!</strong> if you would like to buy, go to Allproduct again
+  </div>
+ {% endif %}
+ <br>
+
+    <div class="container">
+  <h2>My Cart</h2>
+  <p>All are your orders and ready to check out</p>            
+	  <table class="table">
+	    <thead>
+	      <tr>
+	      	<th>Ordertime</th>
+	        <th>Product ID</th>
+	        <th>Product</th>
+	        <th>Price</th>
+	        <th>Quantity</th>
+	        <th>Total</th>
+	        <th></th>
+	        <th></th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    	{% for pd in mycart %}
+	      <tr>
+	        <td>{{pd.stamp}}</td>
+	        <td>{{pd.productid}} </td>
+	        <td>{{pd.productname}}</td>
+	        <td>{{pd.price|intcomma}} </td>
+	        <td>{{pd.quantity}}</td>
+	        <td>{{pd.total|intcomma}}</td>
+
+	        <th>
+	        	<form method = "POST" id="form{{pd.productid}}" onsubmit="return confirm('Are you sure to delete?');">
+    			{% csrf_token %}
+    			<input type="hidden" name="productid" value="{{pd.productid}}">
+    			<td><button type="submit" form ="form{{pd.productid}}" class="btn btn-danger">Delete</button></td>
+    			</form>
+	        </th>
+	      </tr>
+	      {% endfor %}	
+	      <tr>
+	      	<td><h4>Total</h4></td>
+	      	<td></td>
+	      	<td></td>
+	      	<td></td>
+	      	<td><h4>{{count}}</h4></td>
+	      	<td><h4>{{total|intcomma}}</h4></td>
+	      	<td></td>
+
+	      </tr>
+
+	    </tbody>
+	  </table>
+	  <a href="{% url 'mycartedit-page' %}" class="btn btn-primary">Edit your Product</a>
+	  <div style="padding: 15px"></div>	
+	  <a href="{% url 'checkout-page' %}"" class="btn btn-success">CheckOut</a>
+		</div>
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

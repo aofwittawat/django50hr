@@ -1,0 +1,70 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+{% load humanize %}
+{% if status == 'delete' %}
+ <div class="alert alert-danger">
+    <strong>Deleted was done!!</strong> if you would like to buy, go to Allproduct again
+  </div>
+ {% endif %}
+ <br>
+
+    <div class="container">
+  <h2>Edit items in your carts</h2>
+  <p>Please check your items before checking out</p> 
+  	<form method = "POST" id="formsave">       
+    {% csrf_token %}
+	  <table class="table">
+	    <thead>
+	      <tr>      	
+	        <th>Product ID</th>
+	        <th>Product</th>
+	        <th>Price</th>
+	        <th>Quantity</th>	        
+	        <th>Delete</th>
+	        <th></th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    {% for pd in mycart %}
+	      <tr>       
+	        <td>{{pd.productid}} </td>
+	        <td>{{pd.productname}}</td>
+	        <td>{{pd.price|intcomma}} </td>
+	        <td><input type="text" name="pd_{{pd.productid}}" value="{{pd.quantity}}"></td>        
+	        <th>
+	        	-
+	        </th>
+	      </tr>
+	    {% endfor %}	
+	    </tbody>
+	  </table>	
+	  			<input type="hidden" name="checksave" value="checksave">
+    			
+   	</form><br>
+		   	<div class="row">
+		   	<button type="submit" form ="formsave" class="btn btn-primary">Submit</button>
+		   	<div style="padding: 15px"></div>	
+		   	<form id ="formclear" method="POST" onsubmit="return confirm('Are you sure to clear?');">
+		   		{% csrf_token %}
+		   		<input type="hidden" name="clear" value="clear">
+		    	<button type="submit" form ="formclear" class="btn btn-danger">Clear</button>
+		   	</form>
+		   	</div>
+</div>
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
